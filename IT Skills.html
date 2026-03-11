@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Skills Assessment — Student Placement Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0f1f3d;
+  --blue:    #1a56db;
+  --blue2:   #2970ff;
+  --teal:    #0ea5e9;
+  --accent:  #f59e0b;
+  --green:   #10b981;
+  --red:     #ef4444;
+  --surface: #f0f4ff;
+  --card:    #ffffff;
+  --border:  #dde5f5;
+  --text:    #1e293b;
+  --muted:   #64748b;
+  --light:   #e8eef8;
+  --grad:    linear-gradient(135deg, #0f1f3d 0%, #1a3a70 50%, #1a56db 100%);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Mulish', sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── GLOBAL ──────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: 'Mulish', sans-serif;
+  transition: all 0.2s ease;
+}
+
+/* ─── BACKGROUND PATTERN ───────────────────────────────────────── */
+.bg-pattern {
+  position: fixed; inset: 0; z-index: -1;
+  background: var(--surface);
+  overflow: hidden;
+}
+.bg-pattern::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 20% 20%, rgba(26,86,219,0.07) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(14,165,233,0.06) 0%, transparent 50%);
+}
+.bg-pattern::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(26,86,219,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,86,219,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── SCREENS ───────────────────────────────────────────────────── */
+.screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+/* ─── WELCOME SCREEN ────────────────────────────────────────────── */
+#screen-welcome {
+  background: transparent;
+}
+
+.welcome-card {
+  background: var(--card);
+  border-radius: 24px;
+  box-shadow: 0 4px 6px rgba(15,31,61,0.04), 0 20px 60px rgba(15,31,61,0.12);
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+  animation: fadeUp 0.6s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-header {
+  background: var(--grad);
+  padding: 44px 40px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-header::after {
+  content: '';
+  position: absolute;
+  right: -40px; top: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.welcome-header::before {
+  content: '';
+  position: absolute;
+  right: 30px; bottom: -60px;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+}
+
+.college-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.college-badge svg { width: 14px; height: 14px; }
+
+.welcome-header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.welcome-header h1 span { color: var(--accent); }
+
+.welcome-header p {
+  color: rgba(255,255,255,0.72);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.welcome-body { padding: 36px 40px 40px; }
+
+.info-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.name-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 6px;
+}
+.name-input:focus {
+  border-color: var(--blue2);
+  box-shadow: 0 0 0 3px rgba(41,112,255,0.12);
+  background: #fff;
+}
+.name-input::placeholder { color: #a0aec0; }
+
+.input-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.btn-start {
+  width: 100%;
+  background: var(--grad);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 20px rgba(26,86,219,0.3);
+}
+.btn-start:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(26,86,219,0.38); }
+.btn-start:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.disclaimer {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ─── QUIZ SCREEN ───────────────────────────────────────────────── */
+#screen-quiz {
+  align-items: flex-start;
+  padding-top: 0;
+}
+
+.quiz-layout {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Top bar */
+.quiz-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(240,244,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--navy);
+}
+.topbar-logo span { color: var(--blue); }
+
+.topbar-student {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.topbar-student strong { color: var(--text); }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.q-counter {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 4px 12px;
+}
+
+/* Progress */
+.progress-track {
+  height: 4px;
+  background: var(--border);
+  position: relative;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 0 99px 99px 0;
+}
+
+/* Question area */
+.quiz-content {
+  padding: 36px 24px 80px;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin-bottom: 16px;
+}
+.section-tag.knowledge { background: #dbeafe; color: #1d4ed8; }
+.section-tag.self      { background: #fef3c7; color: #92400e; }
+
+.question-card {
+  background: var(--card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 32px;
+  box-shadow: 0 2px 16px rgba(15,31,61,0.06);
+  animation: slideQ 0.35s cubic-bezier(0.4,0,0.2,1) both;
+}
+@keyframes slideQ {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.q-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.q-text {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.45;
+  margin-bottom: 26px;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  transition: all 0.18s ease;
+  width: 100%;
+}
+.option-btn:hover:not(:disabled) {
+  border-color: var(--blue2);
+  background: #f0f5ff;
+  transform: translateX(3px);
+}
+.option-btn:disabled { cursor: default; }
+
+.opt-letter {
+  width: 32px; height: 32px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--border);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+}
+
+.option-btn.selected {
+  border-color: var(--blue2);
+  background: #eff6ff;
+}
+.option-btn.selected .opt-letter {
+  background: var(--blue2);
+  color: #fff;
+}
+
+.option-btn.correct {
+  border-color: var(--green);
+  background: #ecfdf5;
+}
+.option-btn.correct .opt-letter { background: var(--green); color: #fff; }
+
+.option-btn.wrong {
+  border-color: var(--red);
+  background: #fef2f2;
+}
+.option-btn.wrong .opt-letter { background: var(--red); color: #fff; }
+
+/* Nav */
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  gap: 12px;
+}
+
+.btn-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+.btn-prev {
+  background: var(--card);
+  border: 2px solid var(--border);
+  color: var(--muted);
+}
+.btn-prev:hover { border-color: var(--blue2); color: var(--blue); }
+
+.btn-next {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 3px 14px rgba(26,86,219,0.28);
+  margin-left: auto;
+}
+.btn-next:hover { opacity: 0.87; transform: translateY(-1px); }
+.btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.btn-finish {
+  background: linear-gradient(135deg, #0ea5e9, #10b981);
+  color: #fff;
+  box-shadow: 0 3px 14px rgba(16,185,129,0.3);
+  margin-left: auto;
+}
+.btn-finish:hover { opacity: 0.87; transform: translateY(-1px); }
+.btn-finish:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* Question dots */
+.q-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.q-dot {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: var(--border);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.q-dot.answered { background: var(--blue); color: #fff; }
+.q-dot.current  { background: var(--navy); color: #fff; outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* ─── RESULTS SCREEN ────────────────────────────────────────────── */
+#screen-results {
+  padding: 40px 20px 60px;
+  align-items: flex-start;
+}
+
+.results-wrap {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  animation: fadeUp 0.5s ease both;
+}
+
+.results-header {
+  background: var(--grad);
+  border-radius: 20px;
+  padding: 44px 40px;
+  color: #fff;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.results-header::after {
+  content: '';
+  position: absolute; right: -60px; top: -60px;
+  width: 250px; height: 250px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+
+.level-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--navy);
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 99px;
+  margin-bottom: 16px;
+}
+
+.result-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.result-sub {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.score-big {
+  font-family: 'Syne', sans-serif;
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+}
+.score-big span { font-size: 28px; color: rgba(255,255,255,0.6); }
+
+.score-info {
+  flex: 1;
+}
+.score-label {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.score-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+  max-width: 320px;
+}
+
+/* Stats cards */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.stat-val.green { color: var(--green); }
+.stat-val.red   { color: var(--red); }
+.stat-val.blue  { color: var(--blue); }
+.stat-lbl { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Recommendation */
+.rec-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  border-left: 4px solid var(--blue);
+}
+.rec-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+.rec-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Answer review */
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.review-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 16px 24px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.review-item {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.review-item:last-child { border-bottom: none; }
+.review-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  padding-top: 2px;
+}
+.review-q {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.review-answer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.answer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.answer-chip.correct { background: #d1fae5; color: #065f46; }
+.answer-chip.wrong   { background: #fee2e2; color: #991b1b; }
+.answer-chip.skipped { background: #f1f5f9; color: #64748b; }
+
+/* Buttons */
+.action-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  flex: 1;
+  justify-content: center;
+  min-width: 160px;
+}
+.btn-download {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 3px 14px rgba(26,86,219,0.28);
+}
+.btn-download:hover { opacity: 0.87; transform: translateY(-1px); }
+.btn-retake {
+  background: var(--card);
+  color: var(--navy);
+  border: 2px solid var(--border);
+}
+.btn-retake:hover { border-color: var(--navy); }
+
+/* ─── RESPONSIVE ────────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .welcome-header, .welcome-body { padding-left: 24px; padding-right: 24px; }
+  .welcome-header h1 { font-size: 26px; }
+  .quiz-content { padding: 24px 16px 60px; }
+  .question-card { padding: 22px 18px; }
+  .q-text { font-size: 16px; }
+  .results-header { padding: 32px 24px; }
+  .score-big { font-size: 52px; }
+  .stats-row { grid-template-columns: repeat(3, 1fr); }
+  .rec-card { padding: 20px; }
+  .review-item { padding: 14px 16px; }
+  .action-row { flex-direction: column; }
+  .btn-action { min-width: unset; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  SCREEN 1 — WELCOME                                           -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="screen-welcome" class="screen">
+  <div class="welcome-card">
+    <div class="welcome-header">
+      <div class="college-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+        IT Department
+      </div>
+      <h1>IT Skills<br><span>Placement Quiz</span></h1>
+      <p>Answer 20 questions so your teacher can place you in the right learning group. There are no wrong answers — just be honest!</p>
+    </div>
+    <div class="welcome-body">
+      <div class="info-pills">
+        <div class="pill">📋 20 Questions</div>
+        <div class="pill">⏱ ~10 Minutes</div>
+        <div class="pill">🎯 Multiple Choice</div>
+        <div class="pill">📥 Downloadable Report</div>
+      </div>
+
+      <label class="form-label" for="studentName">Your Full Name</label>
+      <input
+        class="name-input"
+        type="text"
+        id="studentName"
+        placeholder="e.g. Sarah Johnson"
+        autocomplete="name"
+        maxlength="60"
+      />
+      <p class="input-hint">This will appear on your results report.</p>
+
+      <button class="btn-start" id="btnStart" onclick="startQuiz()" disabled>
+        Begin Assessment →
+      </button>
+
+      <p class="disclaimer">
+        This quiz helps your teacher understand your starting point.<br>
+        Results are shared only with your instructor.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  SCREEN 2 — QUIZ                                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="screen-quiz" class="screen hidden">
+  <div class="quiz-layout">
+
+    <!-- Sticky top bar -->
+    <div class="quiz-topbar">
+      <div class="topbar-left">
+        <div class="topbar-logo">IT<span>Quiz</span></div>
+        <div class="topbar-student">Student: <strong id="displayName">—</strong></div>
+      </div>
+      <div class="topbar-right">
+        <div class="q-counter" id="qCounter">1 / 20</div>
+        <div class="timer-display">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="timerDisplay">00:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar" style="width:5%"></div>
+    </div>
+
+    <!-- Question content -->
+    <div class="quiz-content">
+      <div id="sectionTag" class="section-tag knowledge">💡 Knowledge Question</div>
+
+      <div class="question-card" id="questionCard">
+        <div class="q-num" id="qNum">QUESTION 01</div>
+        <div class="q-text" id="qText"></div>
+        <div class="options-grid" id="optionsGrid"></div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="quiz-nav">
+        <button class="btn-nav btn-prev" id="btnPrev" onclick="prevQuestion()">
+          ← Back
+        </button>
+        <button class="btn-nav btn-next" id="btnNext" onclick="nextQuestion()">
+          Next →
+        </button>
+        <button class="btn-nav btn-finish hidden" id="btnFinish" onclick="finishQuiz()">
+          ✓ Finish Quiz
+        </button>
+      </div>
+
+      <!-- Dot navigation -->
+      <div class="q-dots" id="qDots"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  SCREEN 3 — RESULTS                                           -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="screen-results" class="screen hidden">
+  <div class="results-wrap">
+
+    <!-- Results header -->
+    <div class="results-header">
+      <div class="level-badge" id="levelBadge">Level 2 — Intermediate</div>
+      <div class="result-name" id="resultName">Sarah Johnson</div>
+      <div class="result-sub" id="resultDate">Completed on —</div>
+      <div class="score-row">
+        <div class="score-big"><span id="scoreFrac">14<span>/20</span></span></div>
+        <div class="score-info">
+          <div class="score-label" id="levelTitle">Good Foundation</div>
+          <div class="score-desc" id="levelDesc">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val green" id="resCorrect">0</div>
+        <div class="stat-lbl">Correct</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val red" id="resWrong">0</div>
+        <div class="stat-lbl">Incorrect / Skipped</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val blue" id="resPct">0%</div>
+        <div class="stat-lbl">Score</div>
+      </div>
+    </div>
+
+    <!-- Teacher recommendation -->
+    <div class="rec-card">
+      <div class="rec-title">📋 Teacher Recommendation</div>
+      <div class="rec-text" id="recText">—</div>
+    </div>
+
+    <!-- Answers review -->
+    <div class="review-card">
+      <div class="review-header">
+        📝 Full Answer Review
+      </div>
+      <div id="reviewList"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-row">
+      <button class="btn-action btn-download" onclick="downloadReport()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Report (PDF)
+      </button>
+      <button class="btn-action btn-retake" onclick="retakeQuiz()">
+        ↺ Retake Quiz
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<script>
+/* ── QUESTIONS ─────────────────────────────────────────────────── */
+const QUESTIONS = [
+  // ── KNOWLEDGE QUESTIONS ──────────────────────────────────────
+  {
+    type: 'knowledge',
+    q: 'What does CPU stand for?',
+    opts: ['Central Processing Unit', 'Computer Personal Utility', 'Central Program Uploader', 'Core Power Unit'],
+    ans: 0,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'What is RAM mainly used for in a computer?',
+    opts: ['Storing files permanently', 'Connecting to the internet', 'Temporarily holding data for running programs', 'Displaying images on screen'],
+    ans: 2,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'Which of the following is a web browser?',
+    opts: ['Microsoft Word', 'Google Chrome', 'Windows Explorer', 'Adobe Photoshop'],
+    ans: 1,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'What does an operating system (OS) do?',
+    opts: ['It is a type of computer screen', 'It browses the internet', 'It manages hardware and software resources on a computer', 'It is an app for writing documents'],
+    ans: 2,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'What does a file extension like ".docx" or ".pdf" tell you?',
+    opts: ['The size of the file', 'Who created the file', 'The type or format of the file', 'Where the file is saved'],
+    ans: 2,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'How do you upload a file to Google Drive?',
+    opts: ['You email it to Google', 'You open Google Drive, click "+ New" or drag and drop the file in', 'You press Ctrl+U on your keyboard', 'You need special software to do it'],
+    ans: 1,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'What is "cloud storage"?',
+    opts: ['Storage inside a physical cloud server only accessible in rainy weather', 'Saving files on the internet so you can access them from any device', 'A type of USB memory stick', 'Extra RAM inside the computer'],
+    ans: 1,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'Which of these is an INPUT device?',
+    opts: ['Monitor', 'Printer', 'Keyboard', 'Speakers'],
+    ans: 2,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'What is the difference between an HDD and an SSD?',
+    opts: ['They are exactly the same thing with different names', 'HDD uses magnetic spinning disks; SSD uses flash memory with no moving parts', 'HDD is used for RAM; SSD is used for the CPU', 'SSD only works with Apple computers'],
+    ans: 1,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'What does pressing Ctrl + Z typically do on a Windows computer?',
+    opts: ['Zoom in on the screen', 'Undo the last action', 'Open a new window', 'Close the current application'],
+    ans: 1,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'Which file format is best for sharing a document that others should NOT easily edit?',
+    opts: ['.docx', '.xlsx', '.pdf', '.pptx'],
+    ans: 2,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'What does "Wi-Fi" allow you to do?',
+    opts: ['Connect to the internet wirelessly', 'Print documents', 'Speed up your CPU', 'Save files to a USB drive'],
+    ans: 0,
+    points: 1
+  },
+  {
+    type: 'knowledge',
+    q: 'When you "save as" a file, what happens?',
+    opts: ['The original file is deleted', 'You save a copy of the file with a new name or location', 'The file is sent to someone else', 'Your file is automatically backed up to the cloud'],
+    ans: 1,
+    points: 1
+  },
+  // ── SELF-ASSESSMENT QUESTIONS ─────────────────────────────────
+  {
+    type: 'self',
+    q: 'How confident are you using Microsoft Word to write and format a document?',
+    opts: ['I have never used it', 'I can open it and type text, but not much more', 'I can format text, use headings, and insert images', 'I can do advanced formatting, tables, and mail merge'],
+    ans: -1,   // -1 = self-assessment, no wrong answer
+    scoring: [0, 1, 2, 3],
+    points: 3
+  },
+  {
+    type: 'self',
+    q: 'How confident are you using Microsoft Excel or Google Sheets?',
+    opts: ['I have never used a spreadsheet', 'I can enter data into cells', 'I can use basic formulas like SUM and AVERAGE', 'I can create charts and use more advanced functions'],
+    ans: -1,
+    scoring: [0, 1, 2, 3],
+    points: 3
+  },
+  {
+    type: 'self',
+    q: 'How would you describe your experience with sending and managing emails?',
+    opts: ['I have never sent an email', 'I can send basic emails', 'I can send emails with attachments and organise my inbox', 'I manage multiple folders, filters, and use professional email etiquette'],
+    ans: -1,
+    scoring: [0, 1, 2, 3],
+    points: 3
+  },
+  {
+    type: 'self',
+    q: 'Have you ever created a presentation using PowerPoint, Google Slides, or similar?',
+    opts: ['No, never', 'Yes, but very basic with just text slides', 'Yes — with images, transitions, and design layouts', 'Yes — and I have presented it to an audience'],
+    ans: -1,
+    scoring: [0, 1, 2, 3],
+    points: 3
+  },
+  {
+    type: 'self',
+    q: 'How comfortable are you creating and organising folders on a computer?',
+    opts: ['I am not sure how to do this', 'I can create folders but find it confusing', 'I can create, rename, move, and organise folders easily', 'I keep a well-organised file system and can help others too'],
+    ans: -1,
+    scoring: [0, 1, 2, 3],
+    points: 3
+  },
+  {
+    type: 'self',
+    q: 'Have you ever tried any coding, programming, or web design?',
+    opts: ['No, and I would not know where to start', 'I have heard of coding but never tried it', 'I have done some basic coding (e.g. HTML, Scratch, Python)', 'I have built a small project or website'],
+    ans: -1,
+    scoring: [0, 1, 2, 3],
+    points: 3
+  },
+  {
+    type: 'self',
+    q: 'How would you rate your overall confidence with using computers and technology?',
+    opts: ['Beginner — I find most tasks on a computer difficult', 'Elementary — I can do basic tasks but often need help', 'Intermediate — I am comfortable with everyday computer tasks', 'Advanced — I rarely need help and often assist others'],
+    ans: -1,
+    scoring: [0, 1, 2, 3],
+    points: 3
+  }
+];
+
+/* ── STATE ─────────────────────────────────────────────────────── */
+let studentName = '';
+let currentQ    = 0;
+let answers     = new Array(QUESTIONS.length).fill(null);
+let startTime   = null;
+let timerInt    = null;
+let elapsedSec  = 0;
+
+/* ── NAME INPUT GATE ─────────────────────────────────────────────── */
+document.getElementById('studentName').addEventListener('input', function() {
+  document.getElementById('btnStart').disabled = this.value.trim().length < 2;
+});
+document.getElementById('studentName').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && this.value.trim().length >= 2) startQuiz();
+});
+
+/* ── START ────────────────────────────────────────────────────── */
+function startQuiz() {
+  studentName = document.getElementById('studentName').value.trim();
+  if (studentName.length < 2) return;
+
+  answers   = new Array(QUESTIONS.length).fill(null);
+  currentQ  = 0;
+  elapsedSec = 0;
+  startTime = Date.now();
+
+  show('screen-quiz');
+  document.getElementById('displayName').textContent = studentName;
+
+  buildDots();
+  renderQuestion();
+  startTimer();
+}
+
+/* ── TIMER ────────────────────────────────────────────────────── */
+function startTimer() {
+  clearInterval(timerInt);
+  timerInt = setInterval(() => {
+    elapsedSec = Math.floor((Date.now() - startTime) / 1000);
+    const m = String(Math.floor(elapsedSec / 60)).padStart(2,'0');
+    const s = String(elapsedSec % 60).padStart(2,'0');
+    document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+  }, 1000);
+}
+
+/* ── DOTS ─────────────────────────────────────────────────────── */
+function buildDots() {
+  const container = document.getElementById('qDots');
+  container.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'q-dot';
+    d.textContent = i + 1;
+    d.onclick = () => goToQ(i);
+    container.appendChild(d);
+  });
+}
+
+function updateDots() {
+  const dots = document.querySelectorAll('.q-dot');
+  dots.forEach((d, i) => {
+    d.className = 'q-dot';
+    if (answers[i] !== null) d.classList.add('answered');
+    if (i === currentQ)      d.classList.add('current');
+  });
+}
+
+/* ── RENDER QUESTION ──────────────────────────────────────────── */
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const total = QUESTIONS.length;
+
+  // Progress
+  document.getElementById('progressBar').style.width = `${((currentQ + 1) / total) * 100}%`;
+  document.getElementById('qCounter').textContent = `${currentQ + 1} / ${total}`;
+  document.getElementById('qNum').textContent = `QUESTION ${String(currentQ + 1).padStart(2,'0')}`;
+  document.getElementById('qText').textContent = q.q;
+
+  // Section tag
+  const tag = document.getElementById('sectionTag');
+  if (q.type === 'self') {
+    tag.className = 'section-tag self';
+    tag.textContent = '🙋 Self-Assessment';
+  } else {
+    tag.className = 'section-tag knowledge';
+    tag.textContent = '💡 Knowledge Question';
+  }
+
+  // Options
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${opt}`;
+    if (answers[currentQ] === i) btn.classList.add('selected');
+    btn.onclick = () => selectOption(i);
+    grid.appendChild(btn);
+  });
+
+  // Nav buttons
+  document.getElementById('btnPrev').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+  const isLast = currentQ === total - 1;
+  document.getElementById('btnNext').classList.toggle('hidden', isLast);
+  document.getElementById('btnFinish').classList.toggle('hidden', !isLast);
+  document.getElementById('btnNext').disabled = (answers[currentQ] === null);
+  document.getElementById('btnFinish').disabled = (answers[currentQ] === null);
+
+  // Animate card
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  void card.offsetHeight;
+  card.style.animation = 'slideQ 0.35s cubic-bezier(0.4,0,0.2,1) both';
+
+  updateDots();
+}
+
+function selectOption(idx) {
+  answers[currentQ] = idx;
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('btnNext').disabled = false;
+  document.getElementById('btnFinish').disabled = false;
+  updateDots();
+}
+
+function nextQuestion() {
+  if (currentQ < QUESTIONS.length - 1) { currentQ++; renderQuestion(); }
+}
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+function goToQ(i) { currentQ = i; renderQuestion(); }
+
+/* ── SCORING ─────────────────────────────────────────────────── */
+function calculateScore() {
+  // Max possible: 13 knowledge (1pt each) + 7 self (3pts each) = 13 + 21 = 34
+  let earned = 0;
+  let maxPts  = 0;
+  let correct = 0;
+
+  QUESTIONS.forEach((q, i) => {
+    maxPts += q.points;
+    const chosen = answers[i];
+    if (chosen === null) return;
+
+    if (q.ans === -1) {
+      // Self-assessment: award points based on answer level
+      earned += q.scoring[chosen];
+      if (q.scoring[chosen] >= 2) correct++;  // "proficient" counts as correct
+    } else {
+      if (chosen === q.ans) { earned += q.points; correct++; }
+    }
+  });
+
+  const pct = Math.round((earned / maxPts) * 100);
+  return { earned, maxPts, pct, correct };
+}
+
+function getLevel(pct) {
+  if (pct >= 80) return {
+    label: 'Level 4 — Advanced',
+    title: 'Outstanding IT Skills',
+    desc: 'You have an excellent understanding of IT concepts and strong practical skills.',
+    rec: `${studentName} demonstrates advanced IT competency. They are well-suited for upper-level modules including advanced software applications, networking concepts, or introductory programming. Consider placing them in Level 4 or an enrichment/extension group. They may also benefit from peer-mentoring opportunities.`,
+    colour: '#0ea5e9'
+  };
+  if (pct >= 60) return {
+    label: 'Level 3 — Intermediate',
+    title: 'Good IT Foundation',
+    desc: 'You have a solid understanding of core IT concepts and practical tools.',
+    rec: `${studentName} shows a good grasp of everyday IT skills and knowledge. They are ready for a standard IT curriculum including office applications, file management, and introductory digital concepts. Recommended for Level 3 modules. A brief refresher on any identified gaps would be beneficial.`,
+    colour: '#10b981'
+  };
+  if (pct >= 40) return {
+    label: 'Level 2 — Elementary',
+    title: 'Basic IT Awareness',
+    desc: 'You understand some IT basics but have gaps that the course will help fill.',
+    rec: `${studentName} has foundational awareness of IT but requires structured support in core areas such as file management, productivity software, and internet safety. Recommended for Level 2 modules with additional guided practice sessions. Focus areas: Microsoft Office basics, cloud storage, and digital communication.`,
+    colour: '#f59e0b'
+  };
+  return {
+    label: 'Level 1 — Beginner',
+    title: 'Needs Foundation Support',
+    desc: 'You are just starting your IT journey — the course will build your skills from the ground up.',
+    rec: `${studentName} is at the beginning of their IT journey and will benefit greatly from structured, step-by-step instruction. Recommended for Level 1 (Foundation) modules. Priority areas: basic computer operation, keyboard and mouse skills, internet navigation, and introduction to productivity software. Encourage a supportive and patient learning environment.`,
+    colour: '#ef4444'
+  };
+}
+
+/* ── FINISH ───────────────────────────────────────────────────── */
+function finishQuiz() {
+  clearInterval(timerInt);
+  const { earned, maxPts, pct, correct } = calculateScore();
+  const level = getLevel(pct);
+  const wrong = QUESTIONS.length - answers.filter(a => a !== null).length +
+    QUESTIONS.filter((q, i) => {
+      if (answers[i] === null) return false;
+      if (q.ans === -1) return q.scoring[answers[i]] < 2;
+      return answers[i] !== q.ans;
+    }).length;
+
+  // Fill results
+  document.getElementById('levelBadge').textContent  = level.label;
+  document.getElementById('resultName').textContent   = studentName;
+  document.getElementById('resultDate').textContent   =
+    'Completed on ' + new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) +
+    ` · Time: ${document.getElementById('timerDisplay').textContent}`;
+  document.getElementById('scoreFrac').innerHTML = `${earned}<span>/${maxPts}</span>`;
+  document.getElementById('levelTitle').textContent = level.title;
+  document.getElementById('levelDesc').textContent  = level.desc;
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent   = QUESTIONS.length - correct;
+  document.getElementById('resPct').textContent     = pct + '%';
+  document.getElementById('recText').textContent    = level.rec;
+
+  // Change header accent colour
+  document.querySelector('.results-header').style.background =
+    `linear-gradient(135deg, #0f1f3d 0%, #1a3a70 60%, ${level.colour} 100%)`;
+
+  // Build review
+  buildReview();
+
+  show('screen-results');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── REVIEW ───────────────────────────────────────────────────── */
+function buildReview() {
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  const letters = ['A','B','C','D'];
+
+  QUESTIONS.forEach((q, i) => {
+    const chosen = answers[i];
+    const item = document.createElement('div');
+    item.className = 'review-item';
+
+    let chipHTML = '';
+    if (chosen === null) {
+      chipHTML = `<span class="answer-chip skipped">⟳ Skipped</span>`;
+    } else if (q.ans === -1) {
+      const pts = q.scoring[chosen];
+      const label = pts >= 2 ? 'Self-Assessed ✓' : 'Self-Assessed';
+      chipHTML = `<span class="answer-chip ${pts >= 2 ? 'correct' : 'skipped'}">${label}</span>
+                  <span style="font-size:13px;color:var(--muted);">${letters[chosen]}: ${q.opts[chosen]}</span>`;
+    } else {
+      const isCorrect = chosen === q.ans;
+      chipHTML = isCorrect
+        ? `<span class="answer-chip correct">✓ Correct</span><span style="font-size:13px;color:var(--muted);">${letters[chosen]}: ${q.opts[chosen]}</span>`
+        : `<span class="answer-chip wrong">✗ Incorrect</span>
+           <span style="font-size:13px;color:var(--muted);">Your answer: ${letters[chosen]}: ${q.opts[chosen]}</span>
+           <span style="font-size:12px;color:var(--green);font-weight:600;">✓ ${letters[q.ans]}: ${q.opts[q.ans]}</span>`;
+    }
+
+    item.innerHTML = `
+      <div class="review-num">${i + 1}</div>
+      <div>
+        <div class="review-q">${q.q}</div>
+        <div class="review-answer" style="flex-wrap:wrap;gap:6px;">${chipHTML}</div>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+/* ── DOWNLOAD REPORT ──────────────────────────────────────────── */
+function downloadReport() {
+  const { earned, maxPts, pct, correct } = calculateScore();
+  const level = getLevel(pct);
+  const dateStr = new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  const timeStr = document.getElementById('timerDisplay').textContent;
+  const letters = ['A','B','C','D'];
+
+  let questionsHTML = QUESTIONS.map((q, i) => {
+    const chosen = answers[i];
+    let statusIcon, statusLabel, answerDetail = '';
+
+    if (chosen === null) {
+      statusIcon = '⟳'; statusLabel = 'Skipped'; answerDetail = 'No answer given.';
+    } else if (q.ans === -1) {
+      const pts = q.scoring[chosen];
+      statusIcon = pts >= 2 ? '✓' : '—';
+      statusLabel = 'Self-Assessment';
+      answerDetail = `Answer: ${letters[chosen]}) ${q.opts[chosen]}`;
+    } else {
+      const isCorrect = chosen === q.ans;
+      statusIcon = isCorrect ? '✓' : '✗';
+      statusLabel = isCorrect ? 'Correct' : 'Incorrect';
+      answerDetail = isCorrect
+        ? `Answer: ${letters[chosen]}) ${q.opts[chosen]}`
+        : `Your answer: ${letters[chosen]}) ${q.opts[chosen]}<br>Correct answer: ${letters[q.ans]}) ${q.opts[q.ans]}`;
+    }
+
+    const rowBg = i % 2 === 0 ? '#f8fafc' : '#fff';
+    const iconColor = statusLabel === 'Correct' ? '#10b981' : statusLabel === 'Incorrect' ? '#ef4444' : '#94a3b8';
+
+    return `
+      <tr style="background:${rowBg}">
+        <td style="padding:12px 14px;border-bottom:1px solid #e2e8f0;vertical-align:top;width:28px;text-align:center;">
+          <span style="font-weight:800;font-size:13px;color:#94a3b8;">${i+1}</span>
+        </td>
+        <td style="padding:12px 14px;border-bottom:1px solid #e2e8f0;vertical-align:top;">
+          <div style="font-weight:600;color:#1e293b;font-size:14px;margin-bottom:5px;">${q.q}</div>
+          <div style="font-size:12px;color:#64748b;">${answerDetail}</div>
+        </td>
+        <td style="padding:12px 14px;border-bottom:1px solid #e2e8f0;vertical-align:top;text-align:center;width:100px;">
+          <span style="display:inline-block;padding:3px 12px;border-radius:99px;font-size:12px;font-weight:700;
+            background:${statusLabel==='Correct'?'#d1fae5':statusLabel==='Incorrect'?'#fee2e2':'#f1f5f9'};
+            color:${statusLabel==='Correct'?'#065f46':statusLabel==='Incorrect'?'#991b1b':'#64748b'}">
+            ${statusIcon} ${statusLabel}
+          </span>
+        </td>
+      </tr>`;
+  }).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IT Skills Assessment Report — ${studentName}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Mulish:wght@400;500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Mulish', Arial, sans-serif; background: #f0f4ff; color: #1e293b; }
+  .page { max-width: 860px; margin: 0 auto; padding: 0 0 60px; }
+  .header { background: linear-gradient(135deg, #0f1f3d, #1a3a70, ${level.colour}); color: #fff; padding: 48px 48px 40px; }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+  .school-info { font-size: 12px; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; }
+  .score-box { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 24px; text-align: center; }
+  .score-box-num { font-family: 'Syne', Arial, sans-serif; font-size: 36px; font-weight: 800; }
+  .score-box-lbl { font-size: 11px; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; }
+  .level-pill { display: inline-block; background: #f59e0b; color: #1f2937; font-weight: 800; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 16px; border-radius: 99px; margin-bottom: 10px; }
+  .student-name { font-family: 'Syne', Arial, sans-serif; font-size: 30px; font-weight: 800; margin-bottom: 4px; }
+  .header-sub { font-size: 13px; opacity: 0.65; }
+  .section { background: #fff; border: 1px solid #dde5f5; border-radius: 16px; margin: 20px 20px 0; overflow: hidden; }
+  .section-head { background: #0f1f3d; color: #fff; padding: 14px 24px; font-family: 'Syne', Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+  .stats-row { display: flex; gap: 0; }
+  .stat-box { flex: 1; padding: 24px 16px; text-align: center; border-right: 1px solid #dde5f5; }
+  .stat-box:last-child { border-right: none; }
+  .stat-num { font-family: 'Syne', Arial, sans-serif; font-size: 34px; font-weight: 800; margin-bottom: 4px; }
+  .stat-lbl { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+  .rec-body { padding: 20px 24px; font-size: 14px; line-height: 1.8; color: #334155; border-left: 4px solid ${level.colour}; margin: 20px 20px 0; background: #fff; border-radius: 0 12px 12px 0; border-top: 1px solid #dde5f5; border-bottom: 1px solid #dde5f5; border-right: 1px solid #dde5f5; }
+  .rec-lbl { font-size: 11px; font-weight: 800; color: ${level.colour}; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; }
+  .footer { text-align: center; padding: 28px; font-size: 11px; color: #94a3b8; }
+  @media print { body { background: white; } .page { max-width: 100%; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="school-info">IT Department · Skills Assessment Report</div>
+      </div>
+      <div class="score-box">
+        <div class="score-box-num">${earned}/${maxPts}</div>
+        <div class="score-box-lbl">${pct}% Score</div>
+      </div>
+    </div>
+    <div class="level-pill">${level.label}</div>
+    <div class="student-name">${studentName}</div>
+    <div class="header-sub">Completed: ${dateStr} · Time taken: ${timeStr}</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="section" style="margin-top:20px;">
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num" style="color:#10b981">${correct}</div>
+        <div class="stat-lbl">Correct / Proficient</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" style="color:#ef4444">${QUESTIONS.length - correct}</div>
+        <div class="stat-lbl">Needs Development</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" style="color:#1a56db">${pct}%</div>
+        <div class="stat-lbl">Overall Score</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" style="color:#64748b">${timeStr}</div>
+        <div class="stat-lbl">Time Taken</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendation -->
+  <div class="rec-body">
+    <div class="rec-lbl">📋 Teacher Recommendation</div>
+    ${level.rec}
+  </div>
+
+  <!-- Question review -->
+  <div class="section">
+    <div class="section-head">📝 Full Answer Review</div>
+    <table><tbody>${questionsHTML}</tbody></table>
+  </div>
+
+  <div class="footer">
+    IT Skills Placement Assessment · Generated ${dateStr} · For teacher use only
+  </div>
+</div>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url  = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href     = url;
+  link.download = `IT_Assessment_${studentName.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
+  link.click();
+  URL.revokeObjectURL(url);
+
+  // Also open print dialog info
+  setTimeout(() => {
+    alert('Tip: Open the downloaded file in your browser and press Ctrl+P (or Cmd+P on Mac) to print it as a PDF!');
+  }, 800);
+}
+
+/* ── RETAKE ───────────────────────────────────────────────────── */
+function retakeQuiz() {
+  clearInterval(timerInt);
+  document.getElementById('studentName').value = '';
+  document.getElementById('btnStart').disabled = true;
+  show('screen-welcome');
+  window.scrollTo({ top: 0 });
+}
+
+/* ── UTILS ────────────────────────────────────────────────────── */
+function show(id) {
+  ['screen-welcome','screen-quiz','screen-results'].forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== id);
+  });
+}
+</script>
+</body>
+</html>
